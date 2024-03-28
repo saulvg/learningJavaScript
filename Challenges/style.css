@@ -104,9 +104,14 @@ footer .contact li {
   background-position: bottom;
   background-repeat: no-repeat;
 }
+#main-bentos li:hover .class8 {
+  opacity: 1;
+}
 .class8 {
   position: relative;
+  opacity: 0.8;
 }
+
 .class8 img {
   position: absolute;
   top: -20px;
