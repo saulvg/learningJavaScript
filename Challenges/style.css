@@ -98,7 +98,21 @@ footer .contact li {
   width: 100%;
   display: block;
 }
-
+.class3 {
+  background-image: url("https://robnei.blog/wp-content/uploads/2021/11/Alvin-y-las-Ardillas-8.png");
+  background-size: contain;
+  background-position: bottom;
+  background-repeat: no-repeat;
+}
+.class8 {
+  position: relative;
+}
+.class8 img {
+  position: absolute;
+  top: -20px;
+  right: 0;
+  filter: drop-shadow(2px 4px 6px black);
+}
 /* aminations */
 @keyframes show {
   from {
