@@ -98,26 +98,35 @@ footer .contact li {
   width: 100%;
   display: block;
 }
-.class3 {
-  background-image: url("https://robnei.blog/wp-content/uploads/2021/11/Alvin-y-las-Ardillas-8.png");
-  background-size: contain;
-  background-position: bottom;
-  background-repeat: no-repeat;
-}
-#main-bentos li:hover .class8 {
+
+#main-bentos li:hover .bento-article {
   opacity: 1;
 }
-.class8 {
+.bento-article {
   position: relative;
   opacity: 0.8;
 }
 
-.class8 img {
+.bento-article img {
   position: absolute;
-  top: -20px;
-  right: 0;
   filter: drop-shadow(2px 4px 6px black);
 }
+
+.shake:hover img {
+  animation: shake 1s linear;
+  animation-iteration-count: infinite;
+}
+
+/* classN */
+.class1 img {
+  right: 0;
+  top: -25px;
+}
+.class3 img {
+  top: -20px;
+  right: 0;
+}
+
 /* aminations */
 @keyframes show {
   from {
@@ -130,6 +139,15 @@ footer .contact li {
   }
 }
 
+@keyframes shake {
+  30% {
+    rotate: 5deg;
+  }
+
+  85% {
+    rotate: -5deg;
+  }
+}
 /* Media  queries*/
 @media (width <= 1024px) {
   #main-bentos ul {
