@@ -127,6 +127,19 @@ footer .contact li {
   right: 0;
 }
 
+/*Retos*/
+.code-box pre {
+  white-space: pre-line;
+  background-color: rgba(161, 161, 161, 0.404);
+  width: max-content;
+  padding: 1rem;
+  line-height: 1.5em;
+}
+
+.text-red {
+  color: red;
+}
+
 /* aminations */
 @keyframes show {
   from {
