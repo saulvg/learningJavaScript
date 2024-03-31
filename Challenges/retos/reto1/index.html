@@ -4,12 +4,24 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../../style.css" />
+    <!-- Script de logica -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const constText = document.querySelector(".code-box");
+        constText.innerHTML = constText.innerHTML.replace(
+          /const/g,
+          "<span class='text-red'>const</span>"
+        );
+      });
+    </script>
+    <script src="../../lib/helpers/retos/retos.js"></script>
+
     <title>Reto 1</title>
   </head>
   <body>
     <div id="main-header"></div>
     <main>
-      <section>
+      <section class="container description-challenge">
         <p>
           En la fábrica de juguetes del Polo Norte, cada juguete tiene un número
           de identificación único.
@@ -32,35 +44,55 @@
           números repetidos, devuelve -1.
         </p>
       </section>
-      <article class="code-box">
+      <article class="code-box container">
         <pre>
-          const giftIds = [2, 1, 3, 5, 3, 2] 
-          const firstRepeatedId = findFirstRepeated(giftIds) console.log(firstRepeatedId) // 3 
-          // Aunque el 2 y el 3 se repiten 
-          // el 3 aparece primero por segunda vez 
-          const giftIds2 = [1, 2, 3, 4] 
-          const firstRepeatedId2 = findFirstRepeated(giftIds2) 
-          console.log(firstRepeatedId2) 
-          // -1 // Es -1 ya que no se repite ningún número 
-          const giftIds3 = [5, 1, 5, 1] 
-          const firstRepeatedId3 = findFirstRepeated(giftIds3)
-          console.log(firstRepeatedId3) // 5
-        </pre>
+            const giftIds = [2, 1, 3, 5, 3, 2] 
+            const firstRepeatedId = findFirstRepeated(giftIds) 
+            console.log(firstRepeatedId) // 3 
+            // Aunque el 2 y el 3 se repiten 
+            // el 3 aparece primero por segunda vez 
+            const giftIds2 = [1, 2, 3, 4] 
+            const firstRepeatedId2 = findFirstRepeated(giftIds2) 
+            console.log(firstRepeatedId2) 
+            // -1 // Es -1 ya que no se repite ningún número 
+            const giftIds3 = [5, 1, 5, 1] 
+            const firstRepeatedId3 = findFirstRepeated(giftIds3)
+            console.log(firstRepeatedId3) // 5
+          </pre
+        >
       </article>
-
-      
-    </pre>
-    <aside style="border: solid 1px gray; width: max-content; padding: .5rem; margin: 2rem 0 .5rem 0;">
-      <p>Curiosidad de como 'insertar' codigo HTML en HTML </p>
-    </aside>
-    <code>&lt;a href="/"&gt;Soy una etiqueta "a" de HTML &lt;/a&gt;</code>
+      <section class="container">
+        <form action="POST">
+          <label for="solution">
+            Wrtite your solution here and submit to see your answer
+          </label>
+          <textarea
+            name="solution"
+            id="solution"
+            cols="100"
+            rows="30"
+          ></textarea>
+          <button type="submit">Respuesta</button>
+        </form>
+        <div id="answer"></div>
+      </section>
+      <div class="container">
+        <aside
+          style="
+            border: solid 1px gray;
+            width: max-content;
+            padding: 0.5rem;
+            margin: 2rem 0 0.5rem 0;
+          "
+        >
+          <p>Curiosidad de como 'insertar' codigo HTML en HTML</p>
+        </aside>
+        <code>&lt;a href="/"&gt;Soy una etiqueta "a" de HTML &lt;/a&gt;</code>
+      </div>
     </main>
     <div id="main-footer"></div>
+    <!-- Script de 'componentes' -->
     <script src="../../layout/layout.js"></script>
-    <script src="./public/icons.js"></script>
-    <script>
-      const constText = document.querySelector('.code-box')
-      constText.innerHTML = constText.innerHTML.replace(/const/g, "<span class='text-red'>const</span>")
-    </script>
+    <script src="../../public/icons.js"></script>
   </body>
 </html>
