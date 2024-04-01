@@ -23,19 +23,23 @@
     <main>
       <section class="container description-challenge">
         <p>
-          En la fábrica de juguetes del Polo Norte, cada juguete tiene un número
-          de identificación único.
+          En el taller de Santa, los elfos tienen una
+          <span class="text-yellow">lista de regalos</span> que desean fabricar
+          y un conjunto limitado de materiales.
         </p>
         <p>
-          Sin embargo, debido a un error en la máquina de juguetes, algunos
-          números se han asignado a más de un juguete.
+          Los regalos son cadenas de texto y los materiales son caracteres. Tu
+          tarea es escribir una función que, dada una lista de regalos y los
+          materiales disponibles, devuelva una
+          <span class="text-yellow"
+            >lista de los regalos que se pueden fabricar.</span
+          >
         </p>
 
         <p>
-          ¡Encuentra el primer número de identificación que se ha repetido,
-          <span class="text-yellow"
-            >donde la segunda ocurrencia tenga el índice más pequeño!</span
-          >
+          Un regalo se puede fabricar si contamos con todos los materiales
+          necesarios para fabricarlo. ¡Encuentra el primer número de
+          identificación que se ha repetido,
         </p>
 
         <p>
@@ -46,18 +50,23 @@
       </section>
       <article class="code-box container">
         <pre>
-            const giftIds = [2, 1, 3, 5, 3, 2] 
-            const firstRepeatedId = findFirstRepeated(giftIds) 
-            console.log(firstRepeatedId) // 3 
-            // Aunque el 2 y el 3 se repiten 
-            // el 3 aparece primero por segunda vez 
-            const giftIds2 = [1, 2, 3, 4] 
-            const firstRepeatedId2 = findFirstRepeated(giftIds2) 
-            console.log(firstRepeatedId2) 
-            // -1 // Es -1 ya que no se repite ningún número 
-            const giftIds3 = [5, 1, 5, 1] 
-            const firstRepeatedId3 = findFirstRepeated(giftIds3)
-            console.log(firstRepeatedId3) // 5
+          const gifts = ['tren', 'oso', 'pelota']
+          const materials = 'tronesa'
+          
+          manufacture(gifts, materials) // ["tren", "oso"]
+          // 'tren' SÍ porque sus letras están en 'tronesa'
+          // 'oso' SÍ porque sus letras están en 'tronesa'
+          // 'pelota' NO porque sus letras NO están en 'tronesa'
+          
+          const gifts = ['juego', 'puzzle']
+          const materials = 'jlepuz'
+          
+          manufacture(gifts, materials) // ["puzzle"]
+          
+          const gifts = ['libro', 'ps5']
+          const materials = 'psli'
+          
+          manufacture(gifts, materials) // []
           </pre
         >
       </article>
@@ -96,37 +105,27 @@
     <script src="../../public/icons.js"></script>
     <!-- Soluciones -->
     <script>
-      const giftIds = [2, 1, 3, 5, 3, 2];
+      /*   const gifts2 = ["juego", "puzzle"];
+      const materials2 = "jlepuz";
+      const gifts3 = ["libro", "ps5"];
+      const materials3 = "psli";
       const giftIds2 = [1, 2, 3, 4];
-      const giftIds3 = [5, 1, 5, 1];
-      function findFirstRepeated(gifts) {
+      const giftIds3 = [5, 1, 5, 1]; */
+      const gifts = ["tren", "oso", "pelota"];
+      const materials = "tronesa";
+      function manufacture(gifts, materials) {
         /* Solucion 1 */
-        const listaRegalos = {};
-        for (const gift of gifts) {
-          if (listaRegalos[gift]) return gift;
-          listaRegalos[gift] = true;
-        }
-
-        return -1;
-        /* ... */
+        return gifts.filter((gift) => {
+          return gift.split("").every((letra) => materials.includes(letra));
+        });
         /* Solucion 2 */
-        const listaRegalos2 = new Set();
-        for (const gift of gifts) {
-          if (listaRegalos2.has(gift)) return gift;
-
-          listaRegalos2.add(gift);
-        }
-        return -1;
-        /* Solucion 3 */
-        const listaRegalos3 = [];
-        for (gift of gifts) {
-          if (listaRegalos3.includes(gift)) return gift;
-          listaRegalos3.push(gift);
-        }
-        retrun - 1;
-        /* ..... */
+        return gifts.filter((gift) => {
+          return [...gift].every((letra) => materials.includes(letra));
+        });
+        /* ... */
       }
-      findFirstRepeated(giftIds);
+
+      manufacture(gifts, materials);
     </script>
   </body>
 </html>
