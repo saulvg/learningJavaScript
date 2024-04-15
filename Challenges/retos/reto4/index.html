@@ -103,234 +103,52 @@
     <!-- Script de 'componentes' -->
     <script src="../../layout/layout.js"></script>
     <script src="../../public/icons.js"></script>
-    <!-- Soluciones -->
-    <script>
+    <!-- Solucion 1-->
+    <!-- <script>
       function decode(message) {
-        console.log(message, "EXIT ->");
-        return "";
+        const match = message.match(/\(([^()]+)\)/);
+        if (!!match) {
+          const arrayOriginal = message.split("");
+          const matchArray = match[0].split("");
+          matchArray.pop();
+          matchArray.shift();
+          matchArray.reverse();
+
+          arrayOriginal.splice(
+            match.index,
+            matchArray.length + 2,
+            ...matchArray
+          );
+
+          return decode(arrayOriginal.join(""));
+        }
+
+        console.log(message)
+        return message;
       }
       decode("(olleh) (dlrow)!");
       decode("sa(u(cla)atn)s");
       decode("hola (odnum)");
       decode("((nta)(sa))");
+      decode("no tengo parentesis");
+    </script> -->
+
+    <!-- Solucion 2 -->
+    <script>
+      function decode(message) {
+        const match = message.match(/\(([^()]+)\)/);
+        if (!match) return message;
+        const sanitized = match[0].slice(1, -1).split("").reverse().join("");
+        const result = message.replace(match[0], sanitized);
+
+        console.log(result);
+        return decode(result);
+      }
+      decode("(olleh) (dlrow)!");
+      decode("sa(u(cla)atn)s");
+      decode("hola (odnum)");
+      decode("((nta)(sa))");
+      decode("no tengo parentesis");
     </script>
   </body>
 </html>
-<!-- 
- <script>
-      function decode(message) {
-        function getArrayFragment(array, firstIndex, lastIndex) {
-          return array.slice(firstIndex, lastIndex);
-        }
-
-        function reverseArray(array) {
-          return array.split("").reverse().join("");
-        }
-        function replaceArrayFragment(
-          array,
-          indexStart,
-          howManyElemnts,
-          substitue
-        ) {
-          const newModifiedArray = [...array];
-          newModifiedArray.splice(indexStart, howManyElemnts, substitue);
-          return newModifiedArray;
-        }
-        function joinArray(array) {
-          return array.join("");
-        }
-
-        let corretMessage;
-        const destructurMessage = message.split("");
-
-        const haveParentheses =
-          destructurMessage.includes("(") && destructurMessage.includes(")");
-
-        const openLastParentheses = destructurMessage.lastIndexOf("(");
-        const closeFirstParentheses = destructurMessage.indexOf(")");
-
-        const nestedParentheses = closeFirstParentheses < openLastParentheses;
-        console.log("dos parenteris", !nestedParentheses);
-
-        if (nestedParentheses) {
-          console.log(destructurMessage);
-          const openFirstParentheses = destructurMessage.indexOf("(");
-
-          const getParenthesesStrechWith = getArrayFragment(
-            message,
-            openFirstParentheses,
-            closeFirstParentheses + 1
-          );
-          const getParenthesesStrechWithOut = getArrayFragment(
-            message,
-            openFirstParentheses + 1,
-            closeFirstParentheses
-          );
-
-          const reverseGetParenthesesStrechWithOut = reverseArray(
-            getParenthesesStrechWithOut
-          );
-
-          const arrayWithReplaceFragment = replaceArrayFragment(
-            destructurMessage,
-            openFirstParentheses,
-            getParenthesesStrechWith.length,
-            reverseGetParenthesesStrechWithOut
-          );
-          corretMessage = joinArray(arrayWithReplaceFragment);
-
-          return corretMessage;
-        }
-        if (haveParentheses) {
-          const getParenthesesStrechWith = getArrayFragment(
-            message,
-            openLastParentheses,
-            closeFirstParentheses + 1
-          );
-
-          const getParenthesesStrechWithOut = getArrayFragment(
-            message,
-            openLastParentheses + 1,
-            closeFirstParentheses
-          );
-
-          const reverseGetParenthesesStrechWithOut = reverseArray(
-            getParenthesesStrechWithOut
-          );
-
-          const arrayWithReplaceFragment = replaceArrayFragment(
-            destructurMessage,
-            openLastParentheses,
-            getParenthesesStrechWith.length,
-            reverseGetParenthesesStrechWithOut
-          );
-
-          corretMessage = joinArray(arrayWithReplaceFragment);
-
-          decode(corretMessage);
-        } else {
-          corretMessage;
-        }
-        return corretMessage;
-      }
-
-      decode("(olleh) (dlrow)!");
-      //decode("sa(u(cla)atn)s");
-    </script>
-
- -->
-
-<!-- 
-<script>
-      function decode(message) {
-        function getArrayFragment(array, firstIndex, lastIndex) {
-          return array.slice(firstIndex, lastIndex);
-        }
-        function reverseArray(array) {
-          return array.split("").reverse().join("");
-        }
-        function replaceArrayFragment(
-          array,
-          indexStart,
-          howManyElemnts,
-          substitue
-        ) {
-          const newModifiedArray = [...array];
-          newModifiedArray.splice(indexStart, howManyElemnts, substitue);
-          return newModifiedArray;
-        }
-        function joinArray(array) {
-          return array.join("");
-        }
-
-        let corretMessage;
-        let getParenthesesStrechWith;
-        let reverseGetParenthesesStrechWithOut;
-        let getParenthesesStrechWithOut;
-        let arrayWithReplaceFragment;
-
-        const destructurMessage = message.split("");
-
-        const haveParentheses = message.includes("(") && message.includes(")");
-
-        if (haveParentheses) {
-          const openLastParentheses = destructurMessage.lastIndexOf("(");
-          const closeFirstParentheses = destructurMessage.indexOf(")");
-
-          const nestedParentheses = closeFirstParentheses < openLastParentheses;
-          if (nestedParentheses) {
-            const openFirstParentheses = destructurMessage.indexOf("(");
-
-            getParenthesesStrechWith = getArrayFragment(
-              message,
-              openFirstParentheses,
-              closeFirstParentheses + 1
-            );
-            getParenthesesStrechWithOut = getArrayFragment(
-              message,
-              openFirstParentheses + 1,
-              closeFirstParentheses
-            );
-
-            //console.log("getParenthesesStrechWith", getParenthesesStrechWith);
-            //console.log("getParenthesesStrechWithOut",getParenthesesStrechWithOut);
-
-            reverseGetParenthesesStrechWithOut = reverseArray(
-              getParenthesesStrechWithOut
-            );
-
-            arrayWithReplaceFragment = replaceArrayFragment(
-              destructurMessage,
-              openFirstParentheses,
-              getParenthesesStrechWith.length,
-              reverseGetParenthesesStrechWithOut
-            );
-
-            corretMessage = joinArray(arrayWithReplaceFragment);
-          } else {
-            getParenthesesStrechWith = getArrayFragment(
-              message,
-              openLastParentheses,
-              closeFirstParentheses + 1
-            );
-
-            getParenthesesStrechWithOut = getArrayFragment(
-              message,
-              openLastParentheses + 1,
-              closeFirstParentheses
-            );
-
-            console.log("getParenthesesStrechWith", getParenthesesStrechWith);
-            console.log(
-              "getParenthesesStrechWithOut",
-              getParenthesesStrechWithOut
-            );
-            reverseGetParenthesesStrechWithOut = reverseArray(
-              getParenthesesStrechWithOut
-            );
-
-            arrayWithReplaceFragment = replaceArrayFragment(
-              destructurMessage,
-              openLastParentheses,
-              getParenthesesStrechWith.length,
-              reverseGetParenthesesStrechWithOut
-            );
-
-            corretMessage = joinArray(arrayWithReplaceFragment);
-          }
-
-          return decode(corretMessage);
-        } else {
-          corretMessage = message;
-        }
-
-        console.log("END ->", corretMessage);
-        return corretMessage;
-      }
-      //decode("(olleh) (dlrow)!");
-      //decode("sa(u(cla)atn)s");
-      //decode("hola (odnum)");
-      decode("((nta)(sa))");
-    </script>
-
-  -->
