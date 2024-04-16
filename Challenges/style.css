@@ -55,6 +55,9 @@ footer .contact li {
   margin: 0 auto;
   padding: 2rem 2rem;
 }
+.comment {
+  margin: 1rem 0;
+}
 #main-bentos ul {
   display: grid;
   gap: 1rem;

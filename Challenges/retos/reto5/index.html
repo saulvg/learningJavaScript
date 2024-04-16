@@ -106,15 +106,25 @@
     <!-- Solucion 1-->
     <script>
       function cyberReindeer(road, time) {
-        console.log("road ->", road);
-        const santa = road[0];
-        console.log("santa ->", santa);
-        const updateRoad = (road[1] = santa);
-        console.log("updateRoad", updateRoad);
-        return [];
+        const snapShot = [road];
+        let lastCharacter = ".";
+
+        for (let i = 1; i < time; i++) {
+          if (i === 5) road = road.replaceAll("|", "*");
+
+          const matchCanFollow = road.match(/S[\*\.]/g);
+
+          if (matchCanFollow) {
+            road = road.replace(matchCanFollow[0], lastCharacter + "S");
+            lastCharacter = matchCanFollow[0][1];
+          }
+          snapShot.push(road);
+        }
+
+        return snapShot;
       }
       const road = "S..|...|..";
-      const time = 10; // unidades de tiempo
+      const time = 10;
       cyberReindeer(road, time);
     </script>
   </body>
