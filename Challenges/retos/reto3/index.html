@@ -23,81 +23,146 @@
     <main>
       <section class="container description-challenge">
         <p>
-          En el taller de Santa, los elfos tienen una
-          <span class="text-yellow">lista de regalos</span> que desean fabricar
-          y un conjunto limitado de materiales.
+          En el taller de Santa, un elfo travieso ha estado jugando en la cadena
+          de fabricación de regalos, añadiendo o eliminando un paso no
+          planificado.
         </p>
         <p>
-          Los regalos son cadenas de texto y los materiales son caracteres. Tu
-          tarea es escribir una función que, dada una lista de regalos y los
-          materiales disponibles, devuelva una
-          <span class="text-yellow"
-            >lista de los regalos que se pueden fabricar.</span
-          >
+          Tienes la secuencia original de pasos en la fabricación original y la
+          secuencia modificada modified que puede incluir un paso extra o faltar
+          un paso.
         </p>
 
         <p>
-          Un regalo se puede fabricar si contamos con todos los materiales
-          necesarios para fabricarlo. ¡Encuentra el primer número de
-          identificación que se ha repetido,
-        </p>
-
-        <p>
-          En otras palabras, si hay más de un número repetido, debes devolver el
-          número cuya segunda ocurrencia aparezca primero en la lista. Si no hay
-          números repetidos, devuelve -1.
+          Tu tarea es escribir una función que identifique y devuelva el primer
+          paso extra que se ha añadido o eliminado en la cadena de fabricación.
+          Si no hay ninguna diferencia entre las secuencias, devuelve una cadena
+          vacía.
         </p>
       </section>
       <article class="code-box container">
         <pre>
-          const gifts = ['tren', 'oso', 'pelota']
-          const materials = 'tronesa'
-          
-          manufacture(gifts, materials) // ["tren", "oso"]
-          // 'tren' SÍ porque sus letras están en 'tronesa'
-          // 'oso' SÍ porque sus letras están en 'tronesa'
-          // 'pelota' NO porque sus letras NO están en 'tronesa'
-          
-          const gifts = ['juego', 'puzzle']
-          const materials = 'jlepuz'
-          
-          manufacture(gifts, materials) // ["puzzle"]
-          
-          const gifts = ['libro', 'ps5']
-          const materials = 'psli'
-          
-          manufacture(gifts, materials) // []
-          </pre
-        >
+          const original = 'abcd'
+          const modified = 'abcde'
+          findNaughtyStep(original, modified) // 'e'
+
+          const original = 'stepfor'
+          const modified = 'stepor'
+          findNaughtyStep(original, modified) // 'f'
+
+          const original = 'abcde'
+          const modified = 'abcde'
+          findNaughtyStep(original, modified) // ''
+        </pre>
       </article>
-      <section class="container">
-        <form action="POST">
-          <label for="solution">
-            Wrtite your solution here and submit to see your answer
-          </label>
-          <textarea
-            name="solution"
-            id="solution"
-            cols="100"
-            rows="30"
-          ></textarea>
-          <button type="submit">Respuesta</button>
-        </form>
-        <div id="answer"></div>
+      <section class="container description-challenge">
+        <p>A tener en cuenta:</p>
+        <ul>
+          <li>Siempre habrá un paso de diferencia o ninguno.</li>
+          <li>
+            La modificación puede ocurrir en cualquier lugar de la cadena.
+          </li>
+          <li>La secuencia original puede estar vacía</li>
+        </ul>
       </section>
-      <div class="container">
-        <aside
-          style="
-            border: solid 1px gray;
-            width: max-content;
-            padding: 0.5rem;
-            margin: 2rem 0 0.5rem 0;
-          "
-        >
-          <p>Curiosidad de como 'insertar' codigo HTML en HTML</p>
-        </aside>
-        <code>&lt;a href="/"&gt;Soy una etiqueta "a" de HTML &lt;/a&gt;</code>
-      </div>
+      <section class="container">
+        <h3>Solucion 1</h3>
+        <p class="comment">
+          Descubrimos cual es la cadena mas larga, para poder hacer un bucle con
+          el mayor numero de iteraciones posibles
+        </p>
+        <p>
+          Hacemos un bucle e iteramos cada array para comprobar que los indices
+          de cada array son iguales
+        </p>
+        <p>
+          Si el indice de el array modificado es diferente al original,
+          devolvemos ese indice del array mas largo y si no ' '
+        </p>
+        <pre>
+
+          function findNaughtyStep(original, modified) {
+
+            const masLarga =
+              original.length >= modified.length ? original : modified;
+            
+              for (let i = 0; i < masLarga.length; i++) {
+                if (original[i] !== modified[i]) {
+                  return masLarga[i];
+                }
+              }
+
+            return '';
+  }
+
+        </pre>
+        <h3>Soluciones alternativas</h3>
+        <p class="comment">
+          Las demas soluciones son diferentes maneras de hacer lo mismo que en
+          la solucion 1
+        </p>
+        <pre>
+          
+          function findNaughtyStep(original, modified) {
+
+            let res;
+
+            const masLarga =
+              original.length >= modified.length ? original : modified;
+            for (let i = 0; i < masLarga.length; i++) {
+              if (original[i] !== modified[i]) {
+                res = masLarga[i];
+                break;
+              } else {
+                res = "";
+              }
+            }
+            return res;
+          }
+
+          function findNaughtyStep(original, modified) {
+            
+            const masLarga =
+              original.length >= modified.length ? original : modified;
+
+            const menosLarga =
+              original.length < modified.length ? original : modified;
+            
+              for (const letra of masLarga) {
+              if (!menosLarga.includes(letra)) {
+                return letra;
+                break;
+              }
+            }
+            return "";
+          }
+
+
+        function findNaughtyStep(original, modified) {
+          const count = Math.max(original.length, modified.length);
+         
+          for (let i = 0; i < count; i++) {
+            if (original[i] !== modified[i]) {
+              return modified.length > original.length
+                ? modified[i]
+                : original[i];
+            }
+          }
+          return "";
+        }
+
+        </pre>
+
+        <h3>Llamadas</h3>
+        <pre>
+          const original = 'abcd'
+          const modified = 'abcde'
+          const original2 = 'stepfor'
+          const modified2 = 'stepor'
+          const original3 = 'abcde'
+          const modified3 = 'abcde'
+        </pre>
+      </section>
     </main>
     <div id="main-footer"></div>
     <!-- Script de 'componentes' -->

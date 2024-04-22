@@ -23,81 +23,133 @@
     <main>
       <section class="container description-challenge">
         <p>
-          En el taller de Santa, los elfos tienen una
-          <span class="text-yellow">lista de regalos</span> que desean fabricar
-          y un conjunto limitado de materiales.
+          En el taller de Santa 🎅, algunos mensajes navideños han sido escritos
+          de manera peculiar: las letras dentro de los paréntesis deben ser
+          leídas al revés
         </p>
         <p>
-          Los regalos son cadenas de texto y los materiales son caracteres. Tu
-          tarea es escribir una función que, dada una lista de regalos y los
-          materiales disponibles, devuelva una
-          <span class="text-yellow"
-            >lista de los regalos que se pueden fabricar.</span
-          >
+          Santa necesita que estos mensajes estén correctamente formateados. Tu
+          tarea es escribir una función que tome una cadena de texto y revierta
+          los caracteres dentro de cada par de paréntesis, eliminando los
+          paréntesis en el mensaje final.
         </p>
 
         <p>
-          Un regalo se puede fabricar si contamos con todos los materiales
-          necesarios para fabricarlo. ¡Encuentra el primer número de
-          identificación que se ha repetido,
-        </p>
-
-        <p>
-          En otras palabras, si hay más de un número repetido, debes devolver el
-          número cuya segunda ocurrencia aparezca primero en la lista. Si no hay
-          números repetidos, devuelve -1.
+          Eso sí, ten en cuenta que pueden existir paréntesis anidados, por lo
+          que debes invertir los caracteres en el orden correcto.
         </p>
       </section>
       <article class="code-box container">
         <pre>
-          const gifts = ['tren', 'oso', 'pelota']
-          const materials = 'tronesa'
-          
-          manufacture(gifts, materials) // ["tren", "oso"]
-          // 'tren' SÍ porque sus letras están en 'tronesa'
-          // 'oso' SÍ porque sus letras están en 'tronesa'
-          // 'pelota' NO porque sus letras NO están en 'tronesa'
-          
-          const gifts = ['juego', 'puzzle']
-          const materials = 'jlepuz'
-          
-          manufacture(gifts, materials) // ["puzzle"]
-          
-          const gifts = ['libro', 'ps5']
-          const materials = 'psli'
-          
-          manufacture(gifts, materials) // []
+          const a = decode('hola (odnum)')
+          console.log(a) // hola mundo
+
+          const b = decode('(olleh) (dlrow)!')
+          console.log(b) // hello world!
+
+          const c = decode('sa(u(cla)atn)s')
+          console.log(c) // santaclaus
+
+          // Paso a paso:
+          // 1. Invertimos el anidado -> sa(ualcatn)s
+          // 2. Invertimos el que queda -> santaclaus
           </pre
         >
       </article>
-      <section class="container">
-        <form action="POST">
-          <label for="solution">
-            Wrtite your solution here and submit to see your answer
-          </label>
-          <textarea
-            name="solution"
-            id="solution"
-            cols="100"
-            rows="30"
-          ></textarea>
-          <button type="submit">Respuesta</button>
-        </form>
-        <div id="answer"></div>
+
+      <section class="container description-challenge">
+        <p>Notas</p>
+        <ul>
+          <li>
+            Las cadenas de entrada siempre estarán bien formadas con paréntesis
+            que coinciden correctamente, no necesitas validarlos.
+          </li>
+          <li>En el mensaje final no deben quedar paréntesis.</li>
+          <li>El nivel máximo de anidamiento es 2.</li>
+        </ul>
       </section>
-      <div class="container">
-        <aside
-          style="
-            border: solid 1px gray;
-            width: max-content;
-            padding: 0.5rem;
-            margin: 2rem 0 0.5rem 0;
-          "
-        >
-          <p>Curiosidad de como 'insertar' codigo HTML en HTML</p>
-        </aside>
-        <code>&lt;a href="/"&gt;Soy una etiqueta "a" de HTML &lt;/a&gt;</code>
-      </div>
+      <section class="container">
+        <h3>Solucion 1</h3>
+        <p class="comment">
+          Gracias a una regx, obtenemos el fragmento del codigo de letras y
+          numeros que esta entre '(' y ')'
+        </p>
+        <p>
+          Si no obtuviesemos coincidencias devolveriamos el mimso mensaje pero
+          si las encontramos
+        </p>
+        <p>
+          Dentro de lo que es el objeto de la expresion regular (porque no hemos
+          acabado con '/g', obtenemos la coincidencia, la convertimos en un
+          array, le damos la vuelta y lo convertimos a string)
+        </p>
+        <p>
+          Para por ultimo remplazar en un nuevo string, el mensaje original por
+          nuestro nuevo mensajes
+        </p>
+        <p>
+          Y gracias a la recursividad volveriamos a llamar a nuestra funcion con
+          el nuevo valor para comprobar que no hubiese mas parentesis dentro
+        </p>
+
+        <pre>
+
+          function decode(message) {
+
+            const match = message.match(/\(([^()]+)\)/);
+
+            if (!match) return message;
+
+            const sanitized = match[0].slice(1, -1).split("").reverse().join("");
+            const result = message.replace(match[0], sanitized);
+    
+            return decode(result);
+          }
+
+        </pre>
+
+        <h3>Solucion 2</h3>
+        <p class="comment">
+          Hacemos lo mismo que en la solucion 1 pero de una manera algo mas
+          larga
+        </p>
+        <pre>
+
+          function decode(message) {
+
+            const match = message.match(/\(([^()]+)\)/);
+
+            if (!!match) {
+              
+              const arrayOriginal = message.split("");
+              const matchArray = match[0].split("");
+              matchArray.pop();
+              matchArray.shift();
+              matchArray.reverse();
+    
+              arrayOriginal.splice(
+                match.index,
+                matchArray.length + 2,
+                ...matchArray
+              );
+    
+              return decode(arrayOriginal.join(""));
+            }
+    
+            return message;
+          }
+
+        </pre>
+
+        <h3>Llamadas</h3>
+        <pre>
+          decode("(olleh) (dlrow)!");
+          decode("sa(u(cla)atn)s");
+          decode("hola (odnum)");
+          decode("((nta)(sa))");
+          decode("no tengo parentesis");
+        </pre>
+      </section>
     </main>
     <div id="main-footer"></div>
     <!-- Script de 'componentes' -->

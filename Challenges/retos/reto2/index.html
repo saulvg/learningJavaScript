@@ -23,81 +23,122 @@
     <main>
       <section class="container description-challenge">
         <p>
-          En el taller de Santa, los elfos tienen una
-          <span class="text-yellow">lista de regalos</span> que desean fabricar
-          y un conjunto limitado de materiales.
+          En el taller de Santa, los elfos tienen una lista de regalos que
+          desean fabricar y un conjunto limitado de materiales.
         </p>
         <p>
           Los regalos son cadenas de texto y los materiales son caracteres. Tu
           tarea es escribir una función que, dada una lista de regalos y los
-          materiales disponibles, devuelva una
-          <span class="text-yellow"
-            >lista de los regalos que se pueden fabricar.</span
-          >
+          materiales disponibles, devuelva una lista de los regalos que se
+          pueden fabricar.
         </p>
 
         <p>
           Un regalo se puede fabricar si contamos con todos los materiales
-          necesarios para fabricarlo. ¡Encuentra el primer número de
-          identificación que se ha repetido,
-        </p>
-
-        <p>
-          En otras palabras, si hay más de un número repetido, debes devolver el
-          número cuya segunda ocurrencia aparezca primero en la lista. Si no hay
-          números repetidos, devuelve -1.
+          necesarios para fabricarlo.
         </p>
       </section>
       <article class="code-box container">
         <pre>
           const gifts = ['tren', 'oso', 'pelota']
           const materials = 'tronesa'
-          
+
           manufacture(gifts, materials) // ["tren", "oso"]
           // 'tren' SÍ porque sus letras están en 'tronesa'
           // 'oso' SÍ porque sus letras están en 'tronesa'
           // 'pelota' NO porque sus letras NO están en 'tronesa'
-          
+
           const gifts = ['juego', 'puzzle']
           const materials = 'jlepuz'
-          
+
           manufacture(gifts, materials) // ["puzzle"]
-          
+
           const gifts = ['libro', 'ps5']
           const materials = 'psli'
-          
+
           manufacture(gifts, materials) // []
-          </pre
-        >
+        </pre>
       </article>
       <section class="container">
-        <form action="POST">
-          <label for="solution">
-            Wrtite your solution here and submit to see your answer
-          </label>
-          <textarea
-            name="solution"
-            id="solution"
-            cols="100"
-            rows="30"
-          ></textarea>
-          <button type="submit">Respuesta</button>
-        </form>
-        <div id="answer"></div>
+        <h3>Solucion 1</h3>
+        <p class="comment">
+          Iteramos y creamos un nuevo array gracias al metodo filter en el que a
+          la vez que iteramos cada uno de los elementos de la lista de regalos:
+        </p>
+        <p>
+          Separamos en arrays cada uno de los regalos, haciendo un elemnto del
+          array cada letra, gracias al metodo split.
+        </p>
+        <p>
+          Comprobamos una condicion en el array gracias al metodo every, que
+          itera y comprueba lo que le pasemos como argumento en el array,
+          devolvera true si se cumple y false si no.
+        </p>
+        <p>
+          Y por ultimo como condicion del every, le pasamos un includes, que
+          comprobara si cada elemento del array esta incluido en el array de
+          materials
+        </p>
+        <p>
+          Gracias al filter, devolvera un array unicamente con los elementos que
+          cumplan estas condiciones
+        </p>
+        <pre>
+
+          function manufacture(gifts, materials) {
+
+            return gifts.filter((gift) => {
+              return gift.split("").every((letra) => materials.includes(letra));
+            });
+          }
+
+        </pre>
+        <h3>Solucion 2</h3>
+        <p class="comment">
+          Iteramos y creamos un nuevo array gracias al metodo filter en el que a
+          la vez que iteramos cada uno de los elementos de la lista de regalos:
+        </p>
+        <p>
+          Separamos en arrays cada uno de los regalos, haciendo un elemnto del
+          array cada letra, gracias al spread operator.
+        </p>
+        <p>
+          Comprobamos una condicion en el array gracias al metodo every, que
+          itera y comprueba lo que le pasemos como argumento en el array,
+          devolvera true si se cumple y false si no.
+        </p>
+        <p>
+          Y por ultimo como condicion del every, le pasamos un includes, que
+          comprobara si cada elemento del array esta incluido en el array de
+          materials
+        </p>
+        <p>
+          Gracias al filter, devolvera un array unicamente con los elementos que
+          cumplan estas condiciones
+        </p>
+        <pre>
+          
+          function manufacture(gifts, materials) {
+          
+            return gifts.filter((gift) => {
+              return [...gift].every((letra) => materials.includes(letra));
+            });
+          }
+
+        </pre>
+
+        <h3>Llamadas</h3>
+        <pre>
+          const gifts = ["tren", "oso", "pelota"];
+          const materials = "tronesa";
+          const gifts2 = ["juego", "puzzle"];
+          const materials2 = "jlepuz";
+          const gifts3 = ["libro", "ps5"];
+          const materials3 = "psli";
+          const giftIds2 = [1, 2, 3, 4];
+          const giftIds3 = [5, 1, 5, 1];
+        </pre>
       </section>
-      <div class="container">
-        <aside
-          style="
-            border: solid 1px gray;
-            width: max-content;
-            padding: 0.5rem;
-            margin: 2rem 0 0.5rem 0;
-          "
-        >
-          <p>Curiosidad de como 'insertar' codigo HTML en HTML</p>
-        </aside>
-        <code>&lt;a href="/"&gt;Soy una etiqueta "a" de HTML &lt;/a&gt;</code>
-      </div>
     </main>
     <div id="main-footer"></div>
     <!-- Script de 'componentes' -->
@@ -105,14 +146,14 @@
     <script src="../../public/icons.js"></script>
     <!-- Soluciones -->
     <script>
-      /*   const gifts2 = ["juego", "puzzle"];
+      const gifts = ["tren", "oso", "pelota"];
+      const materials = "tronesa";
+      const gifts2 = ["juego", "puzzle"];
       const materials2 = "jlepuz";
       const gifts3 = ["libro", "ps5"];
       const materials3 = "psli";
       const giftIds2 = [1, 2, 3, 4];
-      const giftIds3 = [5, 1, 5, 1]; */
-      const gifts = ["tren", "oso", "pelota"];
-      const materials = "tronesa";
+      const giftIds3 = [5, 1, 5, 1];
       function manufacture(gifts, materials) {
         /* Solucion 1 */
         return gifts.filter((gift) => {
