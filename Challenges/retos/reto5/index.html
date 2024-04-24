@@ -23,81 +23,135 @@
     <main>
       <section class="container description-challenge">
         <p>
-          En el taller de Santa, los elfos tienen una
-          <span class="text-yellow">lista de regalos</span> que desean fabricar
-          y un conjunto limitado de materiales.
+          Santa 🎅 está probando su nuevo trineo eléctrico, el CyberReindeer, en
+          una carretera del Polo Norte. La carretera se representa con una
+          cadena de caracteres, donde:
         </p>
+        <ul class="container description-challenge">
+          <li>. = Carretera</li>
+          <li>S = Trineo de Santa</li>
+          <li>* = Barrera abierta</li>
+          <li>| = Barrera cerrada</li>
+        </ul>
+        <p>Ejemplo de carretera: S...|....|.....</p>
+
         <p>
-          Los regalos son cadenas de texto y los materiales son caracteres. Tu
-          tarea es escribir una función que, dada una lista de regalos y los
-          materiales disponibles, devuelva una
-          <span class="text-yellow"
-            >lista de los regalos que se pueden fabricar.</span
-          >
+          Cada unidad de tiempo, el trineo avanza una posición a la derecha. Si
+          encuentra una barrera cerrada, se detiene hasta que la barrera se
+          abra. Si está abierta, la atraviesa directamente.
         </p>
 
         <p>
-          Un regalo se puede fabricar si contamos con todos los materiales
-          necesarios para fabricarlo. ¡Encuentra el primer número de
-          identificación que se ha repetido,
+          Todas las barreras empiezan cerradas, pero después de 5 unidades de
+          tiempo, se abren todas para siempre.
         </p>
-
         <p>
-          En otras palabras, si hay más de un número repetido, debes devolver el
-          número cuya segunda ocurrencia aparezca primero en la lista. Si no hay
-          números repetidos, devuelve -1.
+          Crea una función que simule el movimiento del trineo durante un tiempo
+          dado y devuelva un array de cadenas representando el estado de la
+          carretera en cada unidad de tiempo:
         </p>
       </section>
       <article class="code-box container">
         <pre>
-          const gifts = ['tren', 'oso', 'pelota']
-          const materials = 'tronesa'
-          
-          manufacture(gifts, materials) // ["tren", "oso"]
-          // 'tren' SÍ porque sus letras están en 'tronesa'
-          // 'oso' SÍ porque sus letras están en 'tronesa'
-          // 'pelota' NO porque sus letras NO están en 'tronesa'
-          
-          const gifts = ['juego', 'puzzle']
-          const materials = 'jlepuz'
-          
-          manufacture(gifts, materials) // ["puzzle"]
-          
-          const gifts = ['libro', 'ps5']
-          const materials = 'psli'
-          
-          manufacture(gifts, materials) // []
-          </pre
-        >
+          const road = 'S..|...|..'
+          const time = 10 // unidades de tiempo
+          const result = cyberReindeer(road, time)
+        </pre>
       </article>
-      <section class="container">
-        <form action="POST">
-          <label for="solution">
-            Wrtite your solution here and submit to see your answer
-          </label>
-          <textarea
-            name="solution"
-            id="solution"
-            cols="100"
-            rows="30"
-          ></textarea>
-          <button type="submit">Respuesta</button>
-        </form>
-        <div id="answer"></div>
+      <section class="container description-challenge">
+        <p>
+          El resultado es un array donde cada elemento muestra la carretera en
+          cada unidad de tiempo.
+        </p>
+        <p>
+          Ten en cuenta que si el trineo está en la misma posición que una
+          barrera, entonces toma su lugar en el array.
+        </p>
+        <p>Los elfos se inspiraron en este reto de Code Wars.</p>
       </section>
-      <div class="container">
-        <aside
-          style="
-            border: solid 1px gray;
-            width: max-content;
-            padding: 0.5rem;
-            margin: 2rem 0 0.5rem 0;
-          "
-        >
-          <p>Curiosidad de como 'insertar' codigo HTML en HTML</p>
-        </aside>
-        <code>&lt;a href="/"&gt;Soy una etiqueta "a" de HTML &lt;/a&gt;</code>
-      </div>
+
+      <section class="container">
+        <h3>Solucion 1</h3>
+        <p class="comment">
+          Declaramos una constante que sera el array que devolveremos, y como
+          primer valor declaramos el primer frame de la carrera (como se
+          encuentra al inicio)
+        </p>
+        <p class="comment">
+          Y declaramos el ultimo caracter, damos por hecho que debajo de la S se
+          encuentra un '.' , que fue el ulitmo caracter que habia antes de la S
+        </p>
+        <p class="comment">
+          Creamos un bucle para gestionar las unidades de tiempo y hacemos que
+          si la carrera va por la unidad de tiempo 5 las barreras se abran,
+          gracias a un replaceAll, sustituimos todas las barreras por puentes
+        </p>
+        <p class="comment">
+          Gracias a una expresion regular encontramos todas las S seguidas por
+          un . o un * , (que recuerdo devulve un array con la resolucion de la
+          misma).
+        </p>
+        <p class="comment">
+          Y si existe coincidencia con dicha expresion regular (es decir las
+          barreras se han abierto), remplazamos el valor de la expresion regular
+          en 'road', por el ultimo caracter seguido de una 'S', si no se diese
+          la condicion de la expresion regular, puseariamos el frame actual de
+          la carretera
+        </p>
+        <p class="comment">
+          Por ultimo actualizamos el lastCharacter con el proximo valor de la
+          'S' y pusheamos el frame actualizado de road
+        </p>
+        <p class="comment">
+          Asi hasta que las unidades de tiempo se acaben y salgamos del bulce
+        </p>
+        <pre>
+
+          function cyberReindeer(road, time) {
+
+            const snapShot = [road];
+            let lastCharacter = ".";
+    
+            for (let i = 1; i < time; i++) {
+              if (i === 5) road = road.replaceAll("|", "*");
+    
+              const matchCanFollow = road.match(/S[\*\.]/g);
+    
+              if (matchCanFollow) {
+                road = road.replace(matchCanFollow[0], lastCharacter + "S");
+                lastCharacter = matchCanFollow[0][1];
+              }
+              snapShot.push(road);
+            }
+    
+            return snapShot;
+          }
+
+        </pre>
+
+        <h3>Llamadas</h3>
+        <pre>
+          const road = 'S..|...|..'
+          const time = 10 // unidades de tiempo
+          const result = cyberReindeer(road, time)
+          
+          Resultado:
+
+          [
+            'S..|...|..', // estado inicial
+            '.S.|...|..', // avanza el trineo la carretera
+            '..S|...|..', // avanza el trineo la carretera
+            '..S|...|..', // el trineo para en la barrera
+            '..S|...|..', // el trineo para en la barrera
+            '...S...*..', // se abre la barrera, el trineo avanza
+            '...*S..*..', // avanza el trineo la carretera
+            '...*.S.*..', // avanza el trineo la carretera
+            '...*..S*..', // avanza el trineo la carretera
+            '...*...S..', // avanza por la barrera abierta
+          ]
+        
+        </pre>
+      </section>
     </main>
     <div id="main-footer"></div>
     <!-- Script de 'componentes' -->
