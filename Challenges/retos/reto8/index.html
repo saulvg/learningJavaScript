@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../../style.css" />
+    <!-- Script de logica -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const constText = document.querySelector(".code-box");
+        constText.innerHTML = constText.innerHTML.replace(
+          /const/g,
+          "<span class='text-red'>const</span>"
+        );
+      });
+    </script>
+    <script src="../../lib/helpers/retos/retos.js"></script>
+
+    <title>Reto 1</title>
+  </head>
+  <body>
+    <div id="main-header"></div>
+    <main>
+      <section class="container description-challenge">
+        <p>
+          Los elfos están muy ocupados en el taller de Santa Claus organizando
+          regalos 🎁 para la víspera de Navidad 🎄.
+        </p>
+        <p>
+          El formato de entrada es especial, ya que indica el número de regalos
+          y el tipo de regalo con letras de la a a la z. Por ejemplo, '66a11b'
+          significa 66 regalos a y 11 regalos b.
+        </p>
+        <p>Los elfos tienen un sistema especial para organizar los regalos:</p>
+        <ul>
+          <li>
+            Cada 10 regalos del mismo tipo se empaquetan en una caja,
+            representada por {x}. Por ejemplo, 20 regalos tipo a se empaquetan
+            en 2 cajas así: {a}{a}.
+          </li>
+          <li>
+            Cada 5 cajas se apilan en un palé, representado por [x]. Por
+            ejemplo, 10 cajas de a se apilan en 2 palés de esta manera: [a][a]
+          </li>
+          <li>
+            Cualquier regalo adicional se coloca en una bolsa, representada por
+            () y se colocan todas dentro. Por ejemplo 4 regalos de b se colocan
+            en una bolsa así (bbbb)
+          </li>
+        </ul>
+        <p>
+          Los regalos luego se colocan en el siguiente orden: palés, cajas y
+          bolsas. Y los regalos aparecen en el mismo orden que la cadena de
+          entrada.
+        </p>
+        <p>
+          Tu tarea es escribir una función organizeGifts que tome una cadena de
+          regalos como argumento y devuelva una cadena representando el almacén.
+        </p>
+      </section>
+      <article class="code-box container">
+        <pre>
+          const result1 = organizeGifts(`76a11b`)
+          console.log(result1)
+          // '[a]{a}{a}(aaaaaa){b}(b)'
+
+          /* Explicación:
+
+            76a: 76 regalos tipo 'a' se empaquetarían en 7 cajas
+            y sobrarían 6 regalos, resultando en 1 palé [a]
+            (por las primeras 5 cajas), 2 cajas sueltas {a}{a} 
+            y una bolsa con 6 regalos (aaaaaa)
+
+            11b: 11 regalos tipo 'b' se empaquetarían en 1 caja
+            y sobraría 1 regalo, resultando en 1 caja suelta {b}
+            y una bolsa con 1 regalo (b)
+        </pre>
+      </article>
+
+      <section class="container">
+        <h3>Solucion 1</h3>
+        <p class="comment">
+          Creamos una constante en la que acumularemos y devolveremos el array con el resultado
+        </p>
+        <p class="comment">
+          Gracias a una expresion regular encontraremos todas las coincidencias de numeros seguidos por una letra, para posteriormente recorrer el array de coincidencias
+        </p>
+        <p class="commnet">
+          Mientras recorremos el array
+          <ul>
+            <li>
+              Separaremos el numero de la letra
+            </li>
+            <li>
+              Calcularemos el numero de cajas, pales y elementos en la bolsa
+            </li>
+            <li>
+              Y despues de cada vuleta del bucle las acumularemos en la variable para finalmente devolverla a la salida del mismo
+            </li>
+          </ul>
+        </p>
+        <pre>
+
+          function organizeGifts(gifts) {
+            let result = ''
+          
+            const matches = gifts.match(/\d+[a-zA-Z]/g)
+            matches.map(element => {
+              const numero = Number(element.slice(0, -1))
+              
+              const letra = element.at(-1)
+        
+              const cajasPrePales = Math.floor(numero / 10)
+              
+              const pales = `[${letra}]`.repeat(Math.floor(cajasPrePales / 5)) 
+            
+              const cajasPosPales = `{${letra}}`.repeat(cajasPrePales % 5) 
+              
+              const bolsa = `${numero % 10 > 0 ? `(${letra.repeat(numero % 10)})`: ''}`
+              
+              result += pales + cajasPosPales + bolsa
+                
+            })
+          
+            return result
+          }
+          
+        </pre>
+      </section>
+    </main>
+    <div id="main-footer"></div>
+    <!-- Script de 'componentes' -->
+    <script src="../../layout/layout.js"></script>
+    <script src="../../public/icons.js"></script>
+    <!-- Solucion 1-->
+    <script>
+      function cyberReindeer(road, time) {
+        const snapShot = [road];
+        let lastCharacter = ".";
+
+        for (let i = 1; i < time; i++) {
+          if (i === 5) road = road.replaceAll("|", "*");
+
+          const matchCanFollow = road.match(/S[\*\.]/g);
+
+          if (matchCanFollow) {
+            road = road.replace(matchCanFollow[0], lastCharacter + "S");
+            lastCharacter = matchCanFollow[0][1];
+          }
+          snapShot.push(road);
+        }
+
+        return snapShot;
+      }
+      const road = "S..|...|..";
+      const time = 10;
+      cyberReindeer(road, time);
+    </script>
+  </body>
+</html>
