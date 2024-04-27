@@ -107,6 +107,39 @@
           }
 
         </pre>
+
+        <h3>Solucion 2</h3>
+        <p class="comment">
+          Creamos dos variables en las que acumularemos la suma y resta de los
+          caracteres correspondietes y el numeo de * que tenemos gracias a un
+          bulce
+        </p>
+        <p class="comment">
+          Dentro del bucle comprobaremos que tipo de caracter tenemos e iremos
+          editando dichas variebles
+        </p>
+        <p class="comment">
+          Por ultimo devolveremos la variable con las acumulaciones y gracias a
+          'Math.abs' sea positivo o negativo el numero devolveremos un numero
+          positivo, finalmente sumaremos el numero de * y Listo !!
+        </p>
+        <pre>
+
+          function maxDistance(movements) {
+  
+            let distancia = 0
+            let comodines = 0
+            
+            for(let movement of movements) {
+              if(movement === '>') distancia ++
+              if(movement === '<') distancia --
+              if(movement === '*') comodines ++
+            }
+
+            return Math.abs(distancia + comodines)
+          }
+
+        </pre>
       </section>
     </main>
     <div id="main-footer"></div>
