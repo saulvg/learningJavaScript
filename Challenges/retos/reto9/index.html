@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../../style.css" />
+    <!-- Script de logica -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const constText = document.querySelector(".code-box");
+        constText.innerHTML = constText.innerHTML.replace(
+          /const/g,
+          "<span class='text-red'>const</span>"
+        );
+      });
+    </script>
+    <script src="../../lib/helpers/retos/retos.js"></script>
+
+    <title>Reto 1</title>
+  </head>
+  <body>
+    <div id="main-header"></div>
+    <main>
+      <section class="container description-challenge">
+        <p>
+          Están encendiendo las luces de Navidad 🎄 en la ciudad y, como cada
+          año, ¡hay que arreglarlas!
+        </p>
+        <p>
+          Las luces son de dos colores: 🔴 y 🟢 . Para que el efecto sea el
+          adecuado, siempre deben estar alternadas. Es decir, si la primera luz
+          es roja, la segunda debe ser verde, la tercera roja, la cuarta verde,
+          etc.
+        </p>
+        <p>
+          Nos han pedido que escribamos una función adjustLights que, dado un
+          array de strings con el color de cada luz (representados con los
+          emojis 🔴 para el rojo y 🟢 para el verde), devuelva el número mínimo
+          de luces que hay que cambiar para que estén los colores alternos.
+        </p>
+      </section>
+      <article class="code-box container">
+        <pre>
+          adjustLights(['🟢', '🔴', '🟢', '🟢', '🟢'])
+          // -> 1 (cambias la cuarta luz a 🔴)
+
+          adjustLights(['🔴', '🔴', '🟢', '🔴', '🟢'])
+          // -> 1 (cambia la primera luz a verde)
+
+          adjustLights(['🔴', '🔴', '🟢', '🟢', '🔴'])
+          // -> 2 (cambias la segunda luz a 🟢 y la tercera a 🔴)
+
+          adjustLights(['🟢', '🔴', '🟢', '🔴', '🟢'])
+          // -> 0 (ya están alternadas)
+
+          adjustLights(['🔴', '🔴', '🔴'])
+          // -> 1 (cambias la segunda luz a 🟢)
+        </pre>
+      </article>
+
+      <section class="container">
+        <h3>Solucion 1</h3>
+        <p class="comment"></p>
+        <pre>
+
+          function adjustLights(lights) {
+            let changesStartingGreen = 0;
+            let changesStartingRed = 0;
+        
+            for (let i = 0; i < lights.length; i++) {
+                const startGreen = i % 2 === 0 ? '🟢' : '🔴';
+                const startRed = i % 2 === 0 ? '🔴' : '🟢';
+              
+                // Contabilizar cambios para comenzar con luces verdes
+                if (lights[i] !== startGreen) {
+                    changesStartingGreen++;
+                }
+        
+                // Contabilizar cambios para comenzar con luces rojas
+                if (lights[i] !== startRed) {
+                    changesStartingRed++;
+                }
+            }
+        
+            // Devolver el menor número de cambios
+            return Math.min(changesStartingGreen, changesStartingRed);
+        }
+        
+          
+        </pre>
+
+        <h3>Solucion 2</h3>
+        <p class="comment"></p>
+        <pre>
+
+          function adjustLights(lights) {
+            let changesStartingGreen = 0;
+        
+            // Contabilizar cambios para comenzar con luces verdes
+            for (let i = 0; i < lights.length; i++) {
+                const expectedColor = i % 2 === 0 ? '🟢' : '🔴';
+                if (lights[i] !== expectedColor) {
+                    changesStartingGreen++;
+                }
+            }
+        
+            // Obtener el total de luces
+            const totalLights = lights.length;
+        
+            // Para obtener los cambios para comenzar con luces rojas, invertimos los cambios
+            const changesStartingRed = totalLights - changesStartingGreen;
+          
+        
+            // Devolver el menor número de cambios
+            return Math.min(changesStartingGreen, changesStartingRed);
+        }
+          
+        </pre>
+      </section>
+    </main>
+    <div id="main-footer"></div>
+    <!-- Script de 'componentes' -->
+    <script src="../../layout/layout.js"></script>
+    <script src="../../public/icons.js"></script>
+  </body>
+</html>
