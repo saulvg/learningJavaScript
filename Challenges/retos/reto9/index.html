@@ -60,29 +60,53 @@
 
       <section class="container">
         <h3>Solucion 1</h3>
-        <p class="comment"></p>
+        <p class="comment">
+          Inicializamos dos variables, una para el supuesto de que la primera
+          luz fuese verde y otra para el supuesto de que la primera luz fuese
+          roja, que nos serviran de contadores para ver cual tiene menos cambios
+        </p>
+        <p class="commnet">
+          Crearemos un bucle que recorra el array de luces y en el que estaran
+          definidas dos condiciones
+        </p>
+        <ul>
+          <li>
+            Si el array empieza por luces verdes, las posiciones pares deberan
+            ser verdes
+          </li>
+          <li>
+            Si el array empieza por luces rojas, las posiciones pares deberan
+            ser rojas
+          </li>
+        </ul>
+        <p class="commnet">
+          En cada vuelta del array comprobaremos si la posicion actual del array
+          cumple una u otra condicion y sumaremos uno a las correspondientes
+          variables en consecuencia
+        </p>
+        <p class="comment">
+          Finalmente devolveremos el menor resultado gracias a "Math.min()"
+        </p>
         <pre>
 
           function adjustLights(lights) {
+
             let changesStartingGreen = 0;
             let changesStartingRed = 0;
         
             for (let i = 0; i < lights.length; i++) {
                 const startGreen = i % 2 === 0 ? '🟢' : '🔴';
-                const startRed = i % 2 === 0 ? '🔴' : '🟢';
-              
-                // Contabilizar cambios para comenzar con luces verdes
+                const startRed = i % 2 === 0 ? '🔴' : '🟢';             
+                
                 if (lights[i] !== startGreen) {
                     changesStartingGreen++;
                 }
-        
-                // Contabilizar cambios para comenzar con luces rojas
+            
                 if (lights[i] !== startRed) {
                     changesStartingRed++;
                 }
             }
         
-            // Devolver el menor número de cambios
             return Math.min(changesStartingGreen, changesStartingRed);
         }
         
@@ -90,13 +114,36 @@
         </pre>
 
         <h3>Solucion 2</h3>
-        <p class="comment"></p>
+        <p class="comment">
+          Creamos una variable para ver cuantos cambios habria que hacer en este
+          caso empezando por la luz verdes.
+        </p>
+        <p class="comment">
+          Creamos un bucle para recorrer el array de luces y en cada iteracion
+          comporbamos si el indice del array es el esperado, que en este caso al
+          dar por echo que empezanmos por la luz verde, los pares deberan ser
+          verdes.
+        </p>
+        <p class="comment">Si la condicion se cumple sumamos uno al contador</p>
+        <p class="comment">
+          A continuacion y tras haber obtenido el numero de cambios que haria
+          falta empezando por verde, restamos el numero total de elementos del
+          array menos los cambios que habria que hacer
+        </p>
+        <p class="comment">
+          De esta manera obtenemos los cambios que habria que hacer si
+          empezasemos por rojo, ya que si hacia un lado he tenido que cambiar X
+          hacia el otro tendria que cambiar el resto.
+        </p>
+        <p class="comment">
+          Finalmente comporbamos que cifra es menor y la devolvemos
+        </p>
         <pre>
 
           function adjustLights(lights) {
+
             let changesStartingGreen = 0;
-        
-            // Contabilizar cambios para comenzar con luces verdes
+                    
             for (let i = 0; i < lights.length; i++) {
                 const expectedColor = i % 2 === 0 ? '🟢' : '🔴';
                 if (lights[i] !== expectedColor) {
@@ -104,14 +151,10 @@
                 }
             }
         
-            // Obtener el total de luces
             const totalLights = lights.length;
-        
-            // Para obtener los cambios para comenzar con luces rojas, invertimos los cambios
+
             const changesStartingRed = totalLights - changesStartingGreen;
-          
-        
-            // Devolver el menor número de cambios
+
             return Math.min(changesStartingGreen, changesStartingRed);
         }
           
